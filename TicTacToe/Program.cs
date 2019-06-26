@@ -14,11 +14,25 @@ namespace TicTacToe
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            BuildWebHost(args).Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+
+                //could enable the capture of errors during server startup and display an error page.
+                .CaptureStartupErrors(true)
+
+                .UseStartup<Startup>()
+
+                //indicate whether the host should listen on the standard URL
+                .PreferHostingUrls(true)
+                .UseUrls("http://localhost:5000")
+
+                //can monitor your applications no matter where or how they run
+                //.UseApplicationInsights();
+
+                .Build();
     }
 }
