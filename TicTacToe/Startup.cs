@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using TicTacToe.Services;
+using TicTacToe.Extensions;
 
 namespace TicTacToe
 {
@@ -32,6 +33,8 @@ namespace TicTacToe
             // enable the usage of static content, able to use HTML, CSS, JS and images.
             app.UseStaticFiles();
 
+            app.UseCommunicationMiddleware();
+          
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
