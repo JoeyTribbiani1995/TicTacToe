@@ -31,6 +31,7 @@ namespace TicTacToe
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
                 // developer can understand HTML, CSS, JS and problems quickly.
                 app.UseBrowserLink();
             }
@@ -67,12 +68,16 @@ namespace TicTacToe
                 return context.Response.WriteAsync($"User {tempUserModel.FirstName} {tempUserModel.LastName} was created ");
             });
 
+            var newUserRoutes = routeBuidler.Build();
+            app.UseRouter(newUserRoutes);
+
             // working within URL rewritting
             var options = new RewriteOptions().AddRewrite("newuser", "/UserRegistration/Index", false);
             app.UseRewriter(options);
-
-            var newUserRoutes = routeBuidler.Build();
-            app.UseRouter(newUserRoutes);
+            
+            // adding error handing
+            app.UseStatusCodePages("text/plain", "HTTP error - Status Code: {0}");
+            app.UseStatusCodePagesWithRedirects("/error/{0}");
 
             app.UseMvc(routes =>
             {
