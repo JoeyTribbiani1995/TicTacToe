@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TicTacToe.Services;
 using TicTacToe.Models;
+using System;
 
 namespace TicTacToe.Controllers
 {
@@ -24,10 +25,27 @@ namespace TicTacToe.Controllers
             if (ModelState.IsValid)
             {
                 await _userService.RegisterUser(userModel);
-                return Content($"User {userModel.FirstName} {userModel.LastName} has been registered successfully");
+                return RedirectToAction(nameof(EmailConfirmation), new { userModel.Email });
             }
-
             return View(userModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EmailConfirmation(string email)
+        {
+            var userTemp = await _userService.GetUserByEmail(email);
+            if(userTemp?.IsEmailConfirmed == true)
+            {
+                return RedirectToAction("Index", "GameInvitation", new { email });
+            }
+           
+             ViewBag.Email = email;
+
+             userTemp.IsEmailConfirmed = true;
+             userTemp.EmailConfirmationDate = DateTime.Now;
+             await _userService.UpdateUser(userTemp);
+ 
+            return View();
         }
     }
 }
