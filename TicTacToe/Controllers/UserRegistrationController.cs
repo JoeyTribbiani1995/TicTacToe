@@ -41,9 +41,9 @@ namespace TicTacToe.Controllers
            
              ViewBag.Email = email;
 
-             userTemp.IsEmailConfirmed = true;
-             userTemp.EmailConfirmationDate = DateTime.Now;
-             await _userService.UpdateUser(userTemp);
+             //userTemp.IsEmailConfirmed = true;
+             //userTemp.EmailConfirmationDate = DateTime.Now;
+             //await _userService.UpdateUser(userTemp);
  
             return View();
         }
