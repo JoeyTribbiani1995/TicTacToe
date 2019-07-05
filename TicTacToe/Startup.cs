@@ -44,6 +44,8 @@ namespace TicTacToe
             app.UseStaticFiles();
             //app.UseDirectoryBrowser();
 
+            app.UseWebSockets();
+
             app.UseCommunicationMiddleware();
 
             // working within URL routing
