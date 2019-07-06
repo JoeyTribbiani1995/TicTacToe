@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Routing;
 using TicTacToe.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Rewrite;
+using System;
 
 namespace TicTacToe
 {
@@ -23,6 +24,12 @@ namespace TicTacToe
 
             //working within URL routing
             services.AddRouting();
+
+            //working within session
+            services.AddSession(o =>
+            {
+                o.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +50,9 @@ namespace TicTacToe
             // enable the usage of static content, able to use HTML, CSS, JS and images.
             app.UseStaticFiles();
             //app.UseDirectoryBrowser();
+
+            //working within session
+            app.UseSession();
 
             app.UseWebSockets();
 
